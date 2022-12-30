@@ -1,38 +1,63 @@
 package com.yaromich.springcourse.models;
 
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.*;
+import java.util.List;
 
 /**
  * @author Анастасия Яромич
  */
+@Entity
+@Table(name = "Person")
 public class Person {
-    private int person_id;
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @NotEmpty(message = "Имя не должно быть пустым")
     @Size(min = 10, max = 50, message = "Имя должно содержать от 2 до 100 символов")
-    private String full_name;
+    @Column(name = "full_name")
+    private String name;
 
     @Min(value = 1900, message = "Год рождения должен быть больше 1935")
-    private int year_of_birth;
+    @Column(name = "year_of_birth")
+    private int yearOfBirth;
+
+    @OneToMany(mappedBy = "person")
+    private List<Book> books;
 
     public Person() {}
 
-    public Person(int person_id, String full_name, int year_of_birth) {
-        this.person_id = person_id;
-        this.full_name = full_name;
-        this.year_of_birth = year_of_birth;
+    public Person(String name, int yearOfBirth) {
+        this.name = name;
+        this.yearOfBirth = yearOfBirth;
     }
 
-    public int getPerson_id() {return person_id;}
+    public Integer getId() {return id;}
 
-    public void setPerson_id(int person_id) {this.person_id = person_id;}
+    public void setId(Integer id) {this.id = id;}
 
-    public String getFull_name() {return full_name;}
+    public String getName() {return name;}
 
-    public void setFull_name(String full_name) {this.full_name = full_name;}
+    public void setName(String name) {this.name = name;}
 
-    public int getYear_of_birth() {return year_of_birth;}
+    public int getYearOfBirth() {return yearOfBirth;}
 
-    public void setYear_of_birth(int year_of_birth) {this.year_of_birth = year_of_birth;}
+    public void setYearOfBirth(int yearOfBirth) {this.yearOfBirth = yearOfBirth;}
+
+    public List<Book> getBooks() {return books;}
+
+    public void setBooks(List<Book> books) {this.books = books;}
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", yearOfBirth=" + yearOfBirth +
+                '}';
+    }
 }

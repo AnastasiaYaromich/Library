@@ -5,7 +5,7 @@
     <title>Person</title>
 </head>
 <body>
-<p th:text="${person.getFull_name() + ', ' + person.getYear_of_birth()}">VALUE</p>
+<p th:text="${person.getName() + ', ' + person.getYearOfBirth()}">VALUE</p>
 
 
 
@@ -14,7 +14,13 @@
     <b>Книги:</b>
     <br/>
     <table th:each="book : ${books}">
-        <tr th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</tr>
+        <tr>
+            <td>
+                <span th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"
+                      th:style="${book.getBookOverdue()} ? 'color: red' : 'color: black'">book
+                </span>
+            </td>
+        </tr>
     </table>
     <hr/>
 </div>
@@ -25,13 +31,13 @@
 </div>
 
 
-<form method="PATCH" th:action="@{/people/{id}/edit(id=${person.getPerson_id()})}">
+<form method="PATCH" th:action="@{/people/{id}/edit(id=${person.getId()})}">
     <input type="submit" value="Редактировать"/>
 </form>
 
 <br/>
 
-<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getPerson_id()})}">
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
     <input type="submit" value="Удалить"/>
 </form>
 
